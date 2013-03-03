@@ -34,13 +34,17 @@ shutil.rmtree(blogFolder + '/rendered')
 make_sure_path_exists(blogFolder + '/rendered')
 
 def main():
+	# This processes the individual .md files and places them in the "rendered" folder under
+	# their respective relative paths.
 	os.chdir(blogFolder)
 	for file in glob.glob("*.md"):
-		print renderHTML(file)
+		print renderPost(file)
 
 # Pass a .txt file from the blog to this function and
-# receive a rendered HTML file.
-def renderHTML(postName):
+# receive meta-data for the post.
+# The post itself will be rendered into HTML and placed
+# in the appropriate folder.
+def renderPost(postName):
 	# Obviously this will be abstracted out later
 	f = open(postName, 'r')
 	post = f.read()
