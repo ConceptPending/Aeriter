@@ -35,7 +35,7 @@ make_sure_path_exists(blogFolder + '/rendered')
 
 def main():
 	os.chdir(blogFolder)
-	for file in glob.glob("*.txt"):
+	for file in glob.glob("*.md"):
 		print renderHTML(file)
 
 # Pass a .txt file from the blog to this function and
