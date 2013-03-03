@@ -23,6 +23,7 @@ def make_sure_path_exists(path):
 # all our fun, regexy matches
 titlematch = re.compile('-title-\n')
 relpathmatch = re.compile('-relpath-\n')
+datematch = re.compile('-date-\n')
 tagsmatch = re.compile('-tags-\n')
 authormatch = re.compile('-author-\n')
 postmatch = re.compile('-post-\n')
@@ -36,14 +37,39 @@ make_sure_path_exists(blogFolder + '/rendered')
 def main():
 	# This processes the individual .md files and places them in the "rendered" folder under
 	# their respective relative paths.
-	os.chdir(blogFolder)
-	for file in glob.glob("*.md"):
-		print renderPost(file)
+	postMetaData = []
+	for file in glob.glob(blogFolder + "/*.md"):
+		postMetaData.append(renderPost(file))
+	genNavPages(postMetaData)
 
-# Pass a .txt file from the blog to this function and
-# receive meta-data for the post.
-# The post itself will be rendered into HTML and placed
-# in the appropriate folder.
+"""Pass the meta data for all posts into this function, and
+the front page, 2nd page, etc will be generated and placed in
+the "rendered" folder appropriately.
+"""
+def genNavPages(postMetaData):
+	# We want to first sort the posts from newest to oldest.
+	postMetaData.sort(key=lambda x: x[0], reverse=True)
+	print postMetaData
+	print len(postMetaData)
+	pageHTML = ""
+	for post in postMetaData:
+		pageHTML += """
+		<h2><a href="%s/">%s</a></h2>
+		<p><span class="author">%s</span> - <span class="date">%s</span></p>
+		<p>%s<a href="%s/">... [continue reading]</a></p>
+		""" % (post[2], post[1], post[4], post[0], post[5][:-3], post[2])
+	print pageHTML
+	renderedPost = template('templates/page', pageHTML=pageHTML)
+	make_sure_path_exists(blogFolder + '/rendered/')
+	f = open(blogFolder + '/rendered/' + '/index.html', 'w+')
+	f.write(renderedPost)
+	f.close()
+
+"""Pass a .txt file from the blog to this function and
+receive meta-data for the post.
+The post itself will be rendered into HTML and placed
+in the appropriate folder.
+"""
 def renderPost(postName):
 	# Obviously this will be abstracted out later
 	f = open(postName, 'r')
@@ -52,6 +78,7 @@ def renderPost(postName):
 
 	postTitle = linematch.match(post, titlematch.search(post).end()).group(0)
 	relpath = linematch.match(post, relpathmatch.search(post).end()).group(0)
+	date = linematch.match(post, datematch.search(post).end()).group(0)
 	tags = linematch.match(post, tagsmatch.search(post).end()).group(0).split(',')
 	author = linematch.match(post, authormatch.search(post).end()).group(0)
 	post = post[postmatch.search(post).end():]
@@ -60,14 +87,14 @@ def renderPost(postName):
 	"""I'm going to assume there's no malicious HTML/JS for now.
 	You are uploading your own .txt's after all.
 	"""
-	os.chdir(os.pardir)
-	renderedPost = template('templates/template', postTitle=postTitle, post=markdown2.markdown(post), author=author, postGist=postGist.replace("\n", " "))
+	renderedPost = template('templates/template', postTitle=postTitle, post=markdown2.markdown(post), date=date, author=author, postGist=postGist.replace("\n", " "))
 	os.chdir(blogFolder)
 	make_sure_path_exists('rendered/' + relpath)
 	f = open('rendered/' + relpath + '/index.html', 'w+')
 	f.write(renderedPost)
 	f.close()
-	return (postTitle, relpath, tags, author, postGist)
+	os.chdir(os.pardir)
+	return (date, postTitle, relpath, tags, author, postGist)
 
 if __name__ == '__main__':
 	main()
