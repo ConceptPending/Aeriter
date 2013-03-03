@@ -57,7 +57,7 @@ def renderHTML(postName):
 	You are uploading your own .txt's after all.
 	"""
 	os.chdir(os.pardir)
-	renderedPost = template('templates/template', postTitle=postTitle, post=markdown2.markdown(post), author=author)
+	renderedPost = template('templates/template', postTitle=postTitle, post=markdown2.markdown(post), author=author, postGist=postGist.replace("\n", " "))
 	os.chdir(blogFolder)
 	make_sure_path_exists('rendered/' + relpath)
 	f = open('rendered/' + relpath + '/index.html', 'w+')
