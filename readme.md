@@ -16,3 +16,14 @@ You'll need to store your AWS access key and secret key using either environment
 If the AWS bucket doesn't exist, it will be created.
 
 Currently the folder with the posts must be located inside the Aeriter folder, but this will change in the future.
+
+Current To-Do List:
+- Blog-wide settings file
+- Pagination
+- Allow arbitrary folders
+- CSS/JS support
+- Template choice support
+- Multiple bucket support (Helps with naked domain support)
+- Gzip compression support
+- Analytics
+- Navigation that makes more sense than sort by date
