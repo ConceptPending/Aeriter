@@ -8,7 +8,8 @@ The utility takes a folder of .md files and generates a blog based on the templa
 Currently, the only template is a plain-text template, and there's no way to save blog settings. However, those are the next two items on my to-do list.
 
 You can render a blog with the following command:
-	python aeriter.py <name of folder with you .md files> <name of Amazon S3 bucket>
+
+    python aeriter.py <name of folder with you .md files> <name of Amazon S3 bucket>
 
 You'll need to store your AWS access key and secret key using either environment variables or a Boto configuration file, as specified by the Boto documentation.
 
