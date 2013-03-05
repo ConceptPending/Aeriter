@@ -1,3 +1,5 @@
+import boto
+from boto.s3.key import Key
 import glob
 import errno
 from bottle import template
@@ -8,6 +10,7 @@ import markdown2
 import shutil
 
 blogFolder = sys.argv[1]
+s3Bucket = sys.argv[2]
 
 # For any folders that are reserved by Aeriter
 if blogFolder == "templates":
@@ -41,6 +44,23 @@ def main():
 	for file in glob.glob(blogFolder + "/*.md"):
 		postMetaData.append(renderPost(file))
 	genNavPages(postMetaData)
+	sendToS3()
+
+def sendToS3():
+	conn = boto.connect_s3()
+	nonexistent = conn.lookup(s3Bucket)
+	if nonexistent is None:
+		bucket = conn.create_bucket(s3Bucket)
+	else:
+		bucket = conn.get_bucket(s3Bucket)
+	bucketKey = Key(bucket)
+	myFolder = blogFolder + "/rendered"
+	for root, subdir, file in os.walk(myFolder):
+		relDir = root.replace(myFolder, "", 1)
+		for name in file:
+			fileName = relDir + "/" + name
+			bucketKey.key = fileName
+			bucketKey.set_contents_from_filename(myFolder + "/" + fileName)
 
 """Pass the meta data for all posts into this function, and
 the front page, 2nd page, etc will be generated and placed in
