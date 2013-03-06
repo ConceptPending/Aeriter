@@ -4,7 +4,7 @@
 		<title>{{"Title Placeholder"}}</title>
 	</head>
 	<body>
-		<h1>{{"Blog Title PlaceHolder"}}</h1>
+		<h1>{{config.get("Settings", "title")}}</h1>
 		%for post in postMetaData:
 		<h2><a href="{{post[2]}}/">{{post[1]}}</a></h2>
 		<p><span class="author">{{post[4]}}</span> - <span class="date">{{post[0]}}</span></p>
