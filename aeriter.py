@@ -1,3 +1,4 @@
+import ConfigParser
 import boto
 from boto.s3.key import Key
 import glob
@@ -9,12 +10,17 @@ import re
 import markdown2
 import shutil
 
+# Set global variables from the command line
 blogFolder = sys.argv[1]
 s3Bucket = sys.argv[2]
 
 # For any folders that are reserved by Aeriter
 if blogFolder == "templates":
 	exit()
+
+# Read configuration for the blog
+config = ConfigParser.ConfigParser()
+config.read(blogFolder + '/settings.cfg')
 
 def make_sure_path_exists(path):
     try:
@@ -34,7 +40,7 @@ linematch = re.compile('^.*$', re.M)
 
 
 # You'll want to do this at the beginning of the process
-shutil.rmtree(blogFolder + '/rendered')
+shutil.rmtree(blogFolder + '/rendered', ignore_errors=True)
 make_sure_path_exists(blogFolder + '/rendered')
 
 def main():
@@ -69,17 +75,15 @@ the "rendered" folder appropriately.
 def genNavPages(postMetaData):
 	# We want to first sort the posts from newest to oldest.
 	postMetaData.sort(key=lambda x: x[0], reverse=True)
-	print postMetaData
-	print len(postMetaData)
-	pageHTML = ""
-	for post in postMetaData:
-		pageHTML += """
-		<h2><a href="%s/">%s</a></h2>
-		<p><span class="author">%s</span> - <span class="date">%s</span></p>
-		<p>%s<a href="%s/">... [continue reading]</a></p>
-		""" % (post[2], post[1], post[4], post[0], post[5][:-3], post[2])
-	print pageHTML
-	renderedPost = template('templates/page', pageHTML=pageHTML)
+	#pageHTML = ""
+	#for post in postMetaData:
+	#	pageHTML += """
+	#	<h2><a href="%s/">%s</a></h2>
+	#	<p><span class="author">%s</span> - <span class="date">%s</span></p>
+	#	<p>%s<a href="%s/">... [continue reading]</a></p>
+	#	""" % (post[2], post[1], post[4], post[0], post[5][:-3], post[2])
+	#print pageHTML
+	renderedPost = template('templates/page', postMetaData=postMetaData, config=config)
 	make_sure_path_exists(blogFolder + '/rendered/')
 	f = open(blogFolder + '/rendered/' + '/index.html', 'w+')
 	f.write(renderedPost)
@@ -107,7 +111,7 @@ def renderPost(postName):
 	"""I'm going to assume there's no malicious HTML/JS for now.
 	You are uploading your own .txt's after all.
 	"""
-	renderedPost = template('templates/template', postTitle=postTitle, post=markdown2.markdown(post), date=date, author=author, postGist=postGist.replace("\n", " "))
+	renderedPost = template('templates/template', postTitle=postTitle, post=markdown2.markdown(post), date=date, author=author, postGist=postGist.replace("\n", " "), config=config)
 	os.chdir(blogFolder)
 	make_sure_path_exists('rendered/' + relpath)
 	f = open('rendered/' + relpath + '/index.html', 'w+')
