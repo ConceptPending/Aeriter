@@ -1,10 +1,3 @@
-<html>
-	<head>
-		<meta name="description" content="{{postGist}}">
-		<title>{{postTitle + " - "}}</title>
-	</head>
-	<body>
-		<h1>{{postTitle}}</h1>
-		{{!post}}
-	</body>
-</html>
+<h2>{{postTitle}}</h2>
+{{!post}}
+%rebase templates/base_template title=postTitle + " - " + config.get("Settings", "title"), h1Title=config.get("Settings", "title")
