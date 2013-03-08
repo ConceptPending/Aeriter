@@ -66,7 +66,7 @@ def sendToS3():
 		for name in file:
 			fileName = relDir + "/" + name
 			bucketKey.key = fileName
-			bucketKey.set_contents_from_filename(myFolder + "/" + fileName)
+			bucketKey.set_contents_from_filename(myFolder + "/" + fileName, policy='public-read')
 
 """Pass the meta data for all posts into this function, and
 the front page, 2nd page, etc will be generated and placed in
