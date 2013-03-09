@@ -86,7 +86,7 @@ def genNavPages(postMetaData):
 	renderedPost = template('templates/page', postMetaData=postMetaData, config=config)
 	make_sure_path_exists(blogFolder + '/rendered/')
 	f = open(blogFolder + '/rendered/' + '/index.html', 'w+')
-	renderedPost = renderedPost.encode('ascii', 'xmlcharrefreplace')
+	renderedPost = renderedPost.encode('utf-8')
 	f.write(renderedPost)
 	f.close()
 
@@ -117,7 +117,7 @@ def renderPost(postName):
 	os.chdir(blogFolder)
 	make_sure_path_exists('rendered/' + relpath)
 	f = open('rendered/' + relpath + '/index.html', 'w+')
-	renderedPost = renderedPost.encode('ascii', 'xmlcharrefreplace')
+	renderedPost = renderedPost.encode('utf-8')
 	f.write(renderedPost)
 	f.close()
 	os.chdir(os.pardir)
