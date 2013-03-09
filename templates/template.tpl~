@@ -1,5 +1,5 @@
 <h2>{{postTitle}}</h2>
-<div>
+<div class="span6">
 {{!post}}
 </div>
 %rebase templates/base_template title=postTitle + " - " + config.get("Settings", "title"), h1Title=config.get("Settings", "title")
