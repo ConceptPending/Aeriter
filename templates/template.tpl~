@@ -1,8 +1,10 @@
-<div class="span2">
+<div class="span1">
 </div>
-<div class="span8">
+<div class="span9">
 <h2>{{postTitle}}</h2>
-<p><span class="post_date"><em>published on {{date}}</em></span><br><span class="author">by <a href="/author/{{author}}">{{author}}</a></span></p>
-{{!post}}
+<p class="undertitle"><span class="post_date"><em>published on {{date}}</em></span><br><span class="author">by <a href="/author/{{author}}">{{author}}</a></span></p>
+<div class="post">
+    {{!post}}
+</div>
 </div>
 %rebase templates/base_template title=postTitle + " - " + config.get("Settings", "title"), h1Title=config.get("Settings", "title")

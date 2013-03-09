@@ -1,14 +1,17 @@
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>{{title}}</title>
 		<link rel="stylesheet" type="text/css" href="http://flat-ui.s3-website-us-east-1.amazonaws.com/css/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="http://flat-ui.s3-website-us-east-1.amazonaws.com/css/flat-ui.css">
+		<link href='http://fonts.googleapis.com/css?family=Merriweather+Sans' rel='stylesheet' type='text/css'>
 		<style>
 			a { text-decoration : none; }
 			.demo-headline { padding : 25px 0 25px; }
 			p {
 			    font-size : large !important;
 			    margin-bottom : 25px !important;
+			    font-family : "Merriweather Sans", sans-serif;
 			}
 			.listing {
 			    margin-bottom : 10px;
@@ -16,8 +19,9 @@
 			    border-radius : 6px;
 			    padding : 14px;
 			    position : relative;
+			    border-left: solid 3px #1abc9c;
 			}
-			h2 { margin-top : 30px; }
+			h2 { margin-top : 10px; }
 			h3 { font-size : 20px; }
 			h4 { margin-top : 25px; }
 			.date {
@@ -30,10 +34,23 @@
 			}
 			.author {
 			    margin-left : 20px;
-			    font-size : normal;
+			    font-size : medium;
 			}
 			.undertitle {
 			    margin-top : -10px;
+                font-family: "Flat-UI-Icons-16";
+			}
+			.span12 h2 { margin-top : 10px; }
+			.post {
+			    border-left: solid 3px #1abc9c;
+			    padding-left: 5px;
+			    margin-left: 5px;
+			}
+			.demo-headline {
+			    padding-bottom : 0;
+			}
+			.row {
+			    margin-bottom : 0;
 			}
 		</style>
 	</head>
