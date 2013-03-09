@@ -1,9 +1,9 @@
 <div class="row">
     %for post in postMetaData:
-    <div class="span8">
-        <h2><a href="{{post[2]}}/">{{post[1]}}</a></h2>
-        <div class="listing">
-            <p><span class="author">{{post[4]}}</span> - <span class="date">{{post[0]}}</span></p>
+    <div class="span6">
+        
+        <div class="listing"><h2><a href="{{post[2]}}/">{{post[1]}}</a></h2>
+            <p><span class="author">by {{post[4]}}</span><span class="date"><em>{{post[0].strftime("%B %d, %Y")}}</em></span></p>
             <p>{{post[5][:-3]}}<a href="{{post[2]}}/">... [continue reading]</a></p>
         </div>
     </div>

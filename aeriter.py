@@ -9,6 +9,7 @@ import sys
 import re
 import markdown2
 import shutil
+from datetime import datetime
 
 # Set global variables from the command line
 blogFolder = sys.argv[1]
@@ -121,7 +122,7 @@ def renderPost(postName):
 	f.write(renderedPost)
 	f.close()
 	os.chdir(os.pardir)
-	return (date, postTitle, relpath, tags, author, postGist)
+	return (datetime.strptime(date, "%Y-%m-%d-%H:%M"), postTitle, relpath, tags, author, postGist)
 
 if __name__ == '__main__':
 	main()

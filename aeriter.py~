@@ -9,6 +9,7 @@ import sys
 import re
 import markdown2
 import shutil
+from datetime import datetime
 
 # Set global variables from the command line
 blogFolder = sys.argv[1]
@@ -86,7 +87,7 @@ def genNavPages(postMetaData):
 	renderedPost = template('templates/page', postMetaData=postMetaData, config=config)
 	make_sure_path_exists(blogFolder + '/rendered/')
 	f = open(blogFolder + '/rendered/' + '/index.html', 'w+')
-	renderedPost = renderedPost.encode('utf-8')
+	renderedPost = renderedPost.encode('ascii', 'xmlcharrefreplace')
 	f.write(renderedPost)
 	f.close()
 
@@ -117,11 +118,11 @@ def renderPost(postName):
 	os.chdir(blogFolder)
 	make_sure_path_exists('rendered/' + relpath)
 	f = open('rendered/' + relpath + '/index.html', 'w+')
-	renderedPost = renderedPost.encode('utf-8')
+	renderedPost = renderedPost.encode('ascii', 'xmlcharrefreplace')
 	f.write(renderedPost)
 	f.close()
 	os.chdir(os.pardir)
-	return (date, postTitle, relpath, tags, author, postGist)
+	return (datetime.strptime(date, "%y-%m-%d-%H:%M"), postTitle, relpath, tags, author, postGist)
 
 if __name__ == '__main__':
 	main()

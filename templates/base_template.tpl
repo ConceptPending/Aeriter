@@ -17,6 +17,10 @@
 			h2 { margin-top : 30px; }
 			h3 { font-size : 20px; }
 			h4 { margin-top : 25px; }
+			.date {
+			    font-size : small;
+			    float: right;
+			}
 		</style>
 	</head>
 	<body>

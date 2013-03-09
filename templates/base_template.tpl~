@@ -14,9 +14,12 @@
 			    padding : 14px;
 			    position : relative;
 			}
-			h2 { margin-top : 25px; }
+			h2 { margin-top : 30px; }
 			h3 { font-size : 20px; }
-			h4 { margin-top : 20px; }
+			h4 { margin-top : 25px; }
+			.date {
+			    font-size : small;
+			}
 		</style>
 	</head>
 	<body>
