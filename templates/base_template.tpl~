@@ -6,7 +6,10 @@
 		<style>
 			a { text-decoration : none; }
 			.demo-headline { padding : 25px 0 25px; }
-			p { font-size : large !important; }
+			p {
+			    font-size : large !important;
+			    margin-bottom : 25px !important;
+			}
 			.listing {
 			    margin-bottom : 10px;
 			    background-color : #ecf0f5;
@@ -19,6 +22,18 @@
 			h4 { margin-top : 25px; }
 			.date {
 			    font-size : small;
+			    float: right;
+			}
+			.post_date {
+			    margin-left : 20px;
+			    font-size : small;
+			}
+			.author {
+			    margin-left : 20px;
+			    font-size : normal;
+			}
+			.undertitle {
+			    margin-top : -10px;
 			}
 		</style>
 	</head>
