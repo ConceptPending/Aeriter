@@ -9,7 +9,7 @@
         </div>
     </div>
     %counteri += 1
-    %if not counteri % 2:
+    %if not counteri % 2: # You should change the number here to the number of items you want per row. You also need to change the "span" class above if you do so.
     </div>
     <div class="row">
     %end
