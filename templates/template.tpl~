@@ -2,7 +2,7 @@
 </div>
 <div class="span8">
 <h2>{{postTitle}}</h2>
-<p class="undertitle"><span class="post_date"><em>published on {{date}}</em></span><br><span class="author">by <a href="/author/{{author}}">{{author}}</a></span></p>
+<p class="undertitle"><span class="post_date"><em>published on {{date.strftime("%B %d, %Y")}}</em></span><br><span class="author">by <a href="/author/{{author}}">{{author}}</a></span></p>
 <div class="post">
     {{!post}}
 </div>

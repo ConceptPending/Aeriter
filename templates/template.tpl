@@ -1,7 +1,7 @@
 <div class="span2">
 </div>
 <div class="span8">
-<h2>{{postTitle}}</h2>
+<h1>{{postTitle}}</h1>
 <p class="undertitle"><span class="post_date"><em>published on {{date.strftime("%B %d, %Y")}}</em></span><br><span class="author">by <a href="/author/{{author}}">{{author}}</a></span></p>
 <div class="post">
     {{!post}}
