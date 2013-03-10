@@ -10,6 +10,7 @@ import re
 import markdown2
 import shutil
 from datetime import datetime
+import cgi
 
 # Set global variables from the command line
 blogFolder = sys.argv[1]
@@ -108,7 +109,7 @@ def renderPost(postName):
 	date = datetime.strptime(linematch.match(post, datematch.search(post).end()).group(0), "%Y-%m-%d-%H:%M")
 	tags = linematch.match(post, tagsmatch.search(post).end()).group(0).split(',')
 	author = linematch.match(post, authormatch.search(post).end()).group(0)
-	post = post[postmatch.search(post).end():]
+	post = cgi.escape(post[postmatch.search(post).end():])
 	postGist = post[0:140] + '...'
 
 	"""I'm going to assume there's no malicious HTML/JS for now.
