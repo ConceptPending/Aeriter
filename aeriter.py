@@ -63,6 +63,10 @@ def sendToS3():
         bucket = conn.create_bucket(s3Bucket)
     else:
         bucket = conn.get_bucket(s3Bucket)
+    bucket.enable_logging(
+        target_bucket='aeriter-logging',
+        target_prefix=bucket.name)
+    bucket.configure_website(suffix='index.html')
     bucketKey = Key(bucket)
     myFolder = blogFolder + "/rendered"
     for root, subdir, file in os.walk(myFolder):
