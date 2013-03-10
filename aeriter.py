@@ -50,6 +50,8 @@ def main():
     # their respective relative paths.
     postMetaData = []
     for file in glob.glob(blogFolder + "/*.md"):
+        if file[-9:] == '-draft.md':
+            continue
         postMetaData.append(renderPost(file))
     genNavPages(postMetaData)
     sendToS3()

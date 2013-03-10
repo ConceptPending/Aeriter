@@ -20,6 +20,8 @@ The files must end in ".md" and be in the following format:
     [post]
     <all post content in MarkDown format. This will be HTML escaped when rendered before uploading>
 
+A filename with '-draft' appending before the extension (example: 'post1-draft.md') will be ignored during processing.
+
 You must also have a "settings.cfg" file in the same folder in the following format:
 
     [Settings]
@@ -52,3 +54,4 @@ Current To-Do List:
 - "author" page, useful for blogs with multiple authors
 - Automatic DNS routing for hosting on domains/sub-domains
 - Automatic import of WordPress content
+- Intelligent error handling when '<post>.md' doesn't conform to the specified format
