@@ -109,7 +109,7 @@ def renderPost(postName):
 	tags = linematch.match(post, tagsmatch.search(post).end()).group(0).split(',')
 	author = linematch.match(post, authormatch.search(post).end()).group(0)
 	post = post[postmatch.search(post).end():]
-	postGist = post[0:150] + '...'
+	postGist = post[0:140] + '...'
 
 	"""I'm going to assume there's no malicious HTML/JS for now.
 	You are uploading your own .txt's after all.

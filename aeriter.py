@@ -105,7 +105,7 @@ def renderPost(postName):
 
 	postTitle = linematch.match(post, titlematch.search(post).end()).group(0)
 	relpath = linematch.match(post, relpathmatch.search(post).end()).group(0)
-	date = linematch.match(post, datematch.search(post).end()).group(0)
+	date = datetime.strptime(linematch.match(post, datematch.search(post).end()).group(0), "%Y-%m-%d-%H:%M")
 	tags = linematch.match(post, tagsmatch.search(post).end()).group(0).split(',')
 	author = linematch.match(post, authormatch.search(post).end()).group(0)
 	post = post[postmatch.search(post).end():]
@@ -122,7 +122,7 @@ def renderPost(postName):
 	f.write(renderedPost)
 	f.close()
 	os.chdir(os.pardir)
-	return (datetime.strptime(date, "%Y-%m-%d-%H:%M"), postTitle, relpath, tags, author, postGist)
+	return (date, postTitle, relpath, tags, author, postGist)
 
 if __name__ == '__main__':
 	main()
