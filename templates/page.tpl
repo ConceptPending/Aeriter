@@ -15,4 +15,4 @@
     %end
     %end
 </div>
-%rebase templates/base_template title=config.get("Settings", "title"), h1Title=config.get("Settings", "title")
+%rebase templates/base_template title=config.get("Settings", "title"), h1Title=config.get("Settings", "title"), description=config.get("Settings", "description")

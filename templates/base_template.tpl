@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<title>{{title}}</title>
+		<meta name="description" content="{{description}}">
 		<link rel="stylesheet" type="text/css" href="http://flat-ui.s3-website-us-east-1.amazonaws.com/css/bootstrap.css">
 		<link rel="stylesheet" type="text/css" href="http://flat-ui.s3-website-us-east-1.amazonaws.com/css/flat-ui.css">
 		<link href='http://fonts.googleapis.com/css?family=Merriweather+Sans' rel='stylesheet' type='text/css'>

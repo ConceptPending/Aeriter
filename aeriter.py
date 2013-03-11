@@ -63,6 +63,7 @@ def sendToS3():
         bucket = conn.create_bucket(s3Bucket)
     else:
         bucket = conn.get_bucket(s3Bucket)
+    # Make sure you want to change this if you don't want to be sending me your log files!
     bucket.enable_logging(
         target_bucket='aeriter-logging',
         target_prefix=bucket.name)
@@ -118,7 +119,7 @@ def renderPost(postName):
     post = cgi.escape(post[postmatch.search(post).end():])
     postGist = post[0:140] + '...'
 
-    renderedPost = template('templates/template', postTitle=postTitle, post=markdown2.markdown(post), date=date, author=author, postGist=postGist.replace("\n", " "), config=config)
+    renderedPost = template('templates/template', postTitle=postTitle, post=markdown2.markdown(post), date=date, author=author, postGist=postGist.replace("\n", " "), config=config, tags=tags)
     os.chdir(blogFolder)
     make_sure_path_exists('rendered/' + relpath)
     f = open('rendered/' + relpath + '/index.html', 'w+')

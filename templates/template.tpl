@@ -7,4 +7,4 @@
     {{!post}}
 </div>
 </div>
-%rebase templates/base_template title=postTitle + " - " + config.get("Settings", "title"), h1Title=config.get("Settings", "title")
+%rebase templates/base_template title=postTitle + " - " + config.get("Settings", "title"), h1Title=config.get("Settings", "title"), description=", ".join(tags)
