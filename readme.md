@@ -43,8 +43,8 @@ Currently the folder with the posts must be located inside the Aeriter folder, b
 Current To-Do List:
 - ~~Blog-wide settings file~~
 - ~~Actual template with formatting and whatnot~~
-- Pagination
-- Allow arbitrary folders
+- Pagination (Update: Might add this later, and will likely be a template=implementation)
+- ~~Allow arbitrary folders~~
 - CSS/JS support
 - Template choice support
 - Multiple bucket support (Helps with naked domain support)

@@ -16,6 +16,9 @@ import cgi
 blogFolder = sys.argv[1]
 s3Bucket = sys.argv[2]
 
+# Current folder
+curFolder = os.getcwd()
+
 # For any folders that are reserved by Aeriter
 if blogFolder == "templates":
     exit()
@@ -126,7 +129,7 @@ def renderPost(postName):
     renderedPost = renderedPost.encode('ascii', 'xmlcharrefreplace')
     f.write(renderedPost)
     f.close()
-    os.chdir(os.pardir)
+    os.chdir(curFolder)
     return (date, postTitle, relpath, tags, author, postGist)
 
 if __name__ == '__main__':
