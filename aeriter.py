@@ -3,7 +3,7 @@ import boto
 from boto.s3.key import Key
 import glob
 import errno
-from bottle import template
+from bottle import template, TEMPLATE_PATH
 import os
 import sys
 import re
@@ -27,7 +27,6 @@ def main():
     
     blogFolder = sys.argv[1]
     s3Bucket = sys.argv[2]
-    print s3Bucket
     
     # For any folders that are reserved by Aeriter
     if blogFolder == "templates":
@@ -51,7 +50,7 @@ def main():
     genNavPages(postMetaData, blogFolder, config)
     sendToS3(s3Bucket, blogFolder)
 
-def sendToS3(s3Bucket, blogFolder, logging_bucket='aeriter-logging'):
+def sendToS3(s3Bucket, blogFolder, logging_bucket='aeriter-logging', rendered='rendered'):
     conn = boto.connect_s3()
     nonexistent = conn.lookup(s3Bucket)
     if nonexistent is None:
@@ -64,7 +63,7 @@ def sendToS3(s3Bucket, blogFolder, logging_bucket='aeriter-logging'):
         target_prefix=bucket.name)
     bucket.configure_website(suffix='index.html')
     bucketKey = Key(bucket)
-    myFolder = blogFolder + "/rendered"
+    myFolder = blogFolder + "/%s" % rendered
     for root, subdir, file in os.walk(myFolder):
         relDir = root.replace(myFolder, "", 1)
         for name in file:
@@ -79,7 +78,7 @@ the "rendered" folder appropriately.
 def genNavPages(postMetaData, blogFolder, config, rendered='rendered'):
     # We want to first sort the posts from newest to oldest.
     postMetaData.sort(key=lambda x: x[0], reverse=True)
-    renderedPost = template('templates/page', postMetaData=postMetaData, config=config)
+    renderedPost = template('%s/page' % config.get("Settings", "theme"), postMetaData=postMetaData, config=config)
     make_sure_path_exists(blogFolder + '/%s/' % rendered)
     f = open(blogFolder + '/%s/' % rendered + '/index.html', 'w+')
     renderedPost = renderedPost.encode('ascii', 'xmlcharrefreplace')
@@ -114,8 +113,8 @@ def renderPost(postName, blogFolder, config, rendered='rendered'):
     author = linematch.match(post, authormatch.search(post).end()).group(0)
     post = cgi.escape(post[postmatch.search(post).end():])
     postGist = post[0:140] + '...'
-
-    renderedPost = template('templates/template', postTitle=postTitle, post=markdown2.markdown(post), date=date, author=author, postGist=postGist.replace("\n", " "), config=config, tags=tags)
+    
+    renderedPost = template('%s/template' % config.get("Settings", "theme"), postTitle=postTitle, post=markdown2.markdown(post), date=date, author=author, postGist=postGist.replace("\n", " "), config=config, tags=tags)
     make_sure_path_exists(blogFolder + '/' + rendered + '/' + relpath)
     f = open(blogFolder + '/' + rendered + '/' + relpath + '/index.html', 'w+')
     renderedPost = renderedPost.encode('ascii', 'xmlcharrefreplace')

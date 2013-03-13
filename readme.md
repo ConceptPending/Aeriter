@@ -27,6 +27,7 @@ You must also have a "settings.cfg" file in the same folder in the following for
     [Settings]
     title=<title of blog>
     description=<Meta description for front page>
+    theme=<theme name, default is default>
 
 Currently, there is only one template, but this will change in the future. This, among other things, will be included in the settings file.
 
