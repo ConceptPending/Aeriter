@@ -47,13 +47,14 @@ Current To-Do List:
 - Pagination (Update: Might add this later, and will likely be a template=implementation)
 - ~~Allow arbitrary folders~~
 - CSS/JS support
-- Template choice support
+- ~~Template choice support~~
 - Multiple bucket support (Helps with naked domain support)
 - Gzip compression support
-- Analytics - Some serverside but also Google Analytics support
+- Analytics - Some serverside but also Google Analytics support - Logs are stored, need to build a way to parse them and display the results.
 - RSS Support
 - Navigation that makes more sense than sort by date
 - "author" page, useful for blogs with multiple authors
 - Automatic DNS routing for hosting on domains/sub-domains
 - Automatic import of WordPress content
 - Intelligent error handling when '<post>.md' doesn't conform to the specified format
+- Ability to git push to a repo of .md files in order to publish a new post or update your blog.
