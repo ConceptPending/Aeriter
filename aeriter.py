@@ -12,21 +12,6 @@ import shutil
 from datetime import datetime
 import cgi
 
-# Set global variables from the command line
-blogFolder = sys.argv[1]
-s3Bucket = sys.argv[2]
-
-# Current folder
-curFolder = os.getcwd()
-
-# For any folders that are reserved by Aeriter
-if blogFolder == "templates":
-    exit()
-
-# Read configuration for the blog
-config = ConfigParser.ConfigParser()
-config.read(blogFolder + '/settings.cfg')
-
 def make_sure_path_exists(path):
     try:
         os.makedirs(path)
@@ -34,32 +19,42 @@ def make_sure_path_exists(path):
         if exception.errno != errno.EEXIST:
             raise
 
-# all our fun, regexy matches
-titlematch = re.compile(r'\[title\]\n')
-relpathmatch = re.compile(r'\[relpath\]\n')
-datematch = re.compile(r'\[date\]\n')
-tagsmatch = re.compile(r'\[tags\]\n')
-authormatch = re.compile(r'\[author\]\n')
-postmatch = re.compile(r'\[post\]\n')
-linematch = re.compile('^.*$', re.M)
-
-
-# You'll want to do this at the beginning of the process
-shutil.rmtree(blogFolder + '/rendered', ignore_errors=True)
-make_sure_path_exists(blogFolder + '/rendered')
 
 def main():
+    # Set global variables from the command line
+    global blogFolder
+    global s3Bucket
+    global curFolder
+    
+    blogFolder = sys.argv[1]
+    s3Bucket = sys.argv[2]
+    print s3Bucket
+    # Current folder
+    curFolder = os.getcwd()
+    
+    # For any folders that are reserved by Aeriter
+    if blogFolder == "templates":
+        exit()
+
+    # Read configuration for the blog
+    global config
+    config = ConfigParser.ConfigParser()
+    config.read(blogFolder + '/settings.cfg')
+    # You'll want to do this at the beginning of the process
+    shutil.rmtree(blogFolder + '/rendered', ignore_errors=True)
+    make_sure_path_exists(blogFolder + '/rendered')
     # This processes the individual .md files and places them in the "rendered" folder under
     # their respective relative paths.
+    global postMetaData
     postMetaData = []
     for file in glob.glob(blogFolder + "/*.md"):
         if file[-9:] == '-draft.md':
             continue
-        postMetaData.append(renderPost(file))
-    genNavPages(postMetaData)
-    sendToS3()
+        postMetaData.append(renderPost(file, blogFolder))
+    genNavPages(postMetaData, blogFolder)
+    sendToS3(s3Bucket, blogFolder)
 
-def sendToS3():
+def sendToS3(s3Bucket, blogFolder, logging_bucket='aeriter-logging'):
     conn = boto.connect_s3()
     nonexistent = conn.lookup(s3Bucket)
     if nonexistent is None:
@@ -68,7 +63,7 @@ def sendToS3():
         bucket = conn.get_bucket(s3Bucket)
     # Make sure you want to change this if you don't want to be sending me your log files!
     bucket.enable_logging(
-        target_bucket='aeriter-logging',
+        target_bucket=logging_bucket,
         target_prefix=bucket.name)
     bucket.configure_website(suffix='index.html')
     bucketKey = Key(bucket)
@@ -84,20 +79,12 @@ def sendToS3():
 the front page, 2nd page, etc will be generated and placed in
 the "rendered" folder appropriately.
 """
-def genNavPages(postMetaData):
+def genNavPages(postMetaData, rendered='rendered'):
     # We want to first sort the posts from newest to oldest.
     postMetaData.sort(key=lambda x: x[0], reverse=True)
-    #pageHTML = ""
-    #for post in postMetaData:
-    #    pageHTML += """
-    #    <h2><a href="%s/">%s</a></h2>
-    #    <p><span class="author">%s</span> - <span class="date">%s</span></p>
-    #    <p>%s<a href="%s/">... [continue reading]</a></p>
-    #    """ % (post[2], post[1], post[4], post[0], post[5][:-3], post[2])
-    #print pageHTML
     renderedPost = template('templates/page', postMetaData=postMetaData, config=config)
-    make_sure_path_exists(blogFolder + '/rendered/')
-    f = open(blogFolder + '/rendered/' + '/index.html', 'w+')
+    make_sure_path_exists(blogFolder + '/%s/' % rendered)
+    f = open(blogFolder + '/%s/' % rendered + '/index.html', 'w+')
     renderedPost = renderedPost.encode('ascii', 'xmlcharrefreplace')
     f.write(renderedPost)
     f.close()
@@ -107,13 +94,22 @@ receive meta-data for the post.
 The post itself will be rendered into HTML and placed
 in the appropriate folder.
 """
-def renderPost(postName):
+def renderPost(postName, blogFolder, rendered='rendered'):
     # Obviously this will be abstracted out later
     f = open(postName, 'r')
     post = f.read()
     post = post.decode('utf-8')
     f.close()
-
+    
+    # all our fun, regexy matches
+    titlematch = re.compile(r'\[title\]\n')
+    relpathmatch = re.compile(r'\[relpath\]\n')
+    datematch = re.compile(r'\[date\]\n')
+    tagsmatch = re.compile(r'\[tags\]\n')
+    authormatch = re.compile(r'\[author\]\n')
+    postmatch = re.compile(r'\[post\]\n')
+    linematch = re.compile('^.*$', re.M)
+    
     postTitle = linematch.match(post, titlematch.search(post).end()).group(0)
     relpath = linematch.match(post, relpathmatch.search(post).end()).group(0)
     date = datetime.strptime(linematch.match(post, datematch.search(post).end()).group(0), "%Y-%m-%d-%H:%M")
@@ -124,8 +120,8 @@ def renderPost(postName):
 
     renderedPost = template('templates/template', postTitle=postTitle, post=markdown2.markdown(post), date=date, author=author, postGist=postGist.replace("\n", " "), config=config, tags=tags)
     os.chdir(blogFolder)
-    make_sure_path_exists('rendered/' + relpath)
-    f = open('rendered/' + relpath + '/index.html', 'w+')
+    make_sure_path_exists(rendered + '/' + relpath)
+    f = open(rendered + '/' + relpath + '/index.html', 'w+')
     renderedPost = renderedPost.encode('ascii', 'xmlcharrefreplace')
     f.write(renderedPost)
     f.close()
