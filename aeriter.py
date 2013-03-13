@@ -24,13 +24,10 @@ def main():
     # Set global variables from the command line
     global blogFolder
     global s3Bucket
-    global curFolder
     
     blogFolder = sys.argv[1]
     s3Bucket = sys.argv[2]
     print s3Bucket
-    # Current folder
-    curFolder = os.getcwd()
     
     # For any folders that are reserved by Aeriter
     if blogFolder == "templates":
@@ -50,8 +47,8 @@ def main():
     for file in glob.glob(blogFolder + "/*.md"):
         if file[-9:] == '-draft.md':
             continue
-        postMetaData.append(renderPost(file, blogFolder))
-    genNavPages(postMetaData, blogFolder)
+        postMetaData.append(renderPost(file, blogFolder, config))
+    genNavPages(postMetaData, blogFolder, config)
     sendToS3(s3Bucket, blogFolder)
 
 def sendToS3(s3Bucket, blogFolder, logging_bucket='aeriter-logging'):
@@ -79,7 +76,7 @@ def sendToS3(s3Bucket, blogFolder, logging_bucket='aeriter-logging'):
 the front page, 2nd page, etc will be generated and placed in
 the "rendered" folder appropriately.
 """
-def genNavPages(postMetaData, rendered='rendered'):
+def genNavPages(postMetaData, blogFolder, config, rendered='rendered'):
     # We want to first sort the posts from newest to oldest.
     postMetaData.sort(key=lambda x: x[0], reverse=True)
     renderedPost = template('templates/page', postMetaData=postMetaData, config=config)
@@ -94,7 +91,7 @@ receive meta-data for the post.
 The post itself will be rendered into HTML and placed
 in the appropriate folder.
 """
-def renderPost(postName, blogFolder, rendered='rendered'):
+def renderPost(postName, blogFolder, config, rendered='rendered'):
     # Obviously this will be abstracted out later
     f = open(postName, 'r')
     post = f.read()
@@ -119,13 +116,11 @@ def renderPost(postName, blogFolder, rendered='rendered'):
     postGist = post[0:140] + '...'
 
     renderedPost = template('templates/template', postTitle=postTitle, post=markdown2.markdown(post), date=date, author=author, postGist=postGist.replace("\n", " "), config=config, tags=tags)
-    os.chdir(blogFolder)
-    make_sure_path_exists(rendered + '/' + relpath)
-    f = open(rendered + '/' + relpath + '/index.html', 'w+')
+    make_sure_path_exists(blogFolder + '/' + rendered + '/' + relpath)
+    f = open(blogFolder + '/' + rendered + '/' + relpath + '/index.html', 'w+')
     renderedPost = renderedPost.encode('ascii', 'xmlcharrefreplace')
     f.write(renderedPost)
     f.close()
-    os.chdir(curFolder)
     return (date, postTitle, relpath, tags, author, postGist)
 
 if __name__ == '__main__':
