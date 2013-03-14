@@ -19,6 +19,13 @@ def make_sure_path_exists(path):
         if exception.errno != errno.EEXIST:
             raise
 
+def copyanything(src, dst):
+    try:
+        shutil.copytree(src, dst)
+    except OSError as exc: # python >2.5
+        if exc.errno == errno.ENOTDIR:
+            shutil.copy(src, dst)
+        else: raise
 
 def main():
     # Set global variables from the command line
@@ -84,6 +91,9 @@ def genNavPages(postMetaData, blogFolder, config, rendered='rendered'):
     renderedPost = renderedPost.encode('ascii', 'xmlcharrefreplace')
     f.write(renderedPost)
     f.close()
+    
+    # We also want to make sure the template resources are available!
+    copyanything("views/%s/resources" % config.get("Settings", "theme"), "%s/%s/resources" % (blogFolder, rendered))
 
 """Pass a .txt file from the blog to this function and
 receive meta-data for the post.
