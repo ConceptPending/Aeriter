@@ -57,4 +57,5 @@ Current To-Do List:
 - Automatic DNS routing for hosting on domains/sub-domains
 - Automatic import of WordPress content
 - Intelligent error handling when '<post>.md' doesn't conform to the specified format
-- Ability to git push to a repo of .md files in order to publish a new post or update your blog.
+- Ability to git push to a repo of .md files in order to publish a new post or update your blog
+- Grab hot-linked pictures and host locally automatically
