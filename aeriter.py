@@ -11,6 +11,7 @@ import markdown2
 import shutil
 from datetime import datetime
 import cgi
+from itertools import groupby
 
 def make_sure_path_exists(path):
     try:
@@ -90,13 +91,24 @@ the "rendered" folder appropriately.
 def genNavPages(postMetaData, blogFolder, config, rendered='rendered'):
     # We want to first sort the posts from newest to oldest.
     postMetaData.sort(key=lambda x: x[0], reverse=True)
-    print config.get("Settings", "theme")
+    
+    #Now we're rendering the front page.
     renderedPost = template('page', postMetaData=postMetaData, config=config)
     make_sure_path_exists(blogFolder + '/%s/' % rendered)
     f = open(blogFolder + '/%s/' % rendered + '/index.html', 'w+')
     renderedPost = renderedPost.encode('ascii', 'xmlcharrefreplace')
     f.write(renderedPost)
     f.close()
+    
+    # We're gonna go ahead and render the author page(s) as well here.
+    postMetaData.sort(key=lambda x: x[4])
+    for key, group in groupby(postMetaData, lambda x: x[4]):
+        renderedPost = template('page', postMetaData=group, config=config)
+        make_sure_path_exists('%s/%s/author/%s' % (blogFolder, rendered, key))
+        f = open('%s/%s/author/%s/index.html' % (blogFolder, rendered, key), 'w+')
+        renderedPost = renderedPost.encode('ascii', 'xmlcharrefreplace')
+        f.write(renderedPost)
+        f.close()
     
     # We also want to make sure the template resources are available!
     copyanything("views/%s/resources" % config.get("Settings", "theme"), "%s/%s/resources" % (blogFolder, rendered))

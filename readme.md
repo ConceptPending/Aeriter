@@ -53,10 +53,10 @@ Current To-Do List:
 - Serverside analytics support - Logs are stored, need to build a way to parse them and display the results.
 - RSS Support
 - Navigation that makes more sense than sort by date
-- "author" page, useful for blogs with multiple authors
+- ~~"author" page, useful for blogs with multiple authors~~
 - Automatic DNS routing for hosting on domains/sub-domains
 - Automatic import of WordPress content
 - Intelligent error handling when '<post>.md' doesn't conform to the specified format
 - Ability to git push to a repo of .md files in order to publish a new post or update your blog
 - Grab hot-linked pictures and host locally automatically
-- Finer grained Disqus control
+- Finer grained Disqus control, allowing for owners of a blog to be moderators.
