@@ -43,9 +43,14 @@ def main():
     global config
     config = ConfigParser.ConfigParser()
     config.read(blogFolder + '/settings.cfg')
+    
     # You'll want to do this at the beginning of the process
     shutil.rmtree(blogFolder + '/rendered', ignore_errors=True)
     make_sure_path_exists(blogFolder + '/rendered')
+    
+    # Ensure the correct template is being rendered
+    TEMPLATE_PATH.insert(0,'./views/%s' % config.get("Settings", "theme"))
+    
     # This processes the individual .md files and places them in the "rendered" folder under
     # their respective relative paths.
     global postMetaData
@@ -85,7 +90,8 @@ the "rendered" folder appropriately.
 def genNavPages(postMetaData, blogFolder, config, rendered='rendered'):
     # We want to first sort the posts from newest to oldest.
     postMetaData.sort(key=lambda x: x[0], reverse=True)
-    renderedPost = template('%s/page' % config.get("Settings", "theme"), postMetaData=postMetaData, config=config)
+    print config.get("Settings", "theme")
+    renderedPost = template('page', postMetaData=postMetaData, config=config)
     make_sure_path_exists(blogFolder + '/%s/' % rendered)
     f = open(blogFolder + '/%s/' % rendered + '/index.html', 'w+')
     renderedPost = renderedPost.encode('ascii', 'xmlcharrefreplace')
@@ -124,7 +130,7 @@ def renderPost(postName, blogFolder, config, rendered='rendered'):
     post = cgi.escape(post[postmatch.search(post).end():])
     postGist = post[0:140] + '...'
     
-    renderedPost = template('%s/template' % config.get("Settings", "theme"), postTitle=postTitle, post=markdown2.markdown(post), date=date, author=author, postGist=postGist.replace("\n", " "), config=config, tags=tags)
+    renderedPost = template('template', postTitle=postTitle, post=markdown2.markdown(post), date=date, author=author, postGist=postGist.replace("\n", " "), config=config, tags=tags)
     make_sure_path_exists(blogFolder + '/' + rendered + '/' + relpath)
     f = open(blogFolder + '/' + rendered + '/' + relpath + '/index.html', 'w+')
     renderedPost = renderedPost.encode('ascii', 'xmlcharrefreplace')

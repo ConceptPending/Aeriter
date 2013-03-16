@@ -8,7 +8,11 @@
 		<link href='http://fonts.googleapis.com/css?family=Merriweather+Sans' rel='stylesheet' type='text/css'>
 		<style>
 		    body {
-		        
+		        background: url("/resources/cafenero.jpg") no-repeat center center fixed;
+		        background-size: cover;
+		        -webkit-background-size: cover;
+		        -moz-background-size: cover;
+		        -o-background-size: cover;		        
 		    }
 			a { text-decoration : none; }
 			.demo-headline { padding : 25px 0 25px; }
@@ -19,9 +23,8 @@
 			}
 			.listing {
 			    margin-bottom : 10px;
-			    background-color : #ecf0f5;
-			    border-radius : 6px;
-			    padding : 14px;
+			    margin-left: 11px;
+			    padding : 0 5px 0 3px;
 			    position : relative;
 			    border-left: solid 3px #1abc9c;
 			}

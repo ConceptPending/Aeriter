@@ -16,9 +16,8 @@
 			}
 			.listing {
 			    margin-bottom : 10px;
-			    background-color : #ecf0f5;
-			    border-radius : 6px;
-			    padding : 14px;
+			    margin-left: 11px;
+			    padding : 0 5px 0 3px;
 			    position : relative;
 			    border-left: solid 3px #1abc9c;
 			}
@@ -27,7 +26,7 @@
 			h4 { margin-top : 25px; }
 			.date {
 			    font-size : small;
-			    float: right;
+			    margin-left: 15px
 			}
 			.post_date {
 			    margin-left : 20px;
