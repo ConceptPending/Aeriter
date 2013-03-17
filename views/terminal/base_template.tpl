@@ -3,6 +3,7 @@
 	<head>
 		<title>{{title}}</title>
 		<meta name="description" content="{{description}}">
+		<link rel="icon" type="image/png" href="/resources/{{config.get("Settings", "favicon")}}">
 		<link rel="stylesheet" type="text/css" href="/resources/terminal.css">
 		<link href='http://fonts.googleapis.com/css?family=Merriweather+Sans' rel='stylesheet' type='text/css'>
 	</head>
