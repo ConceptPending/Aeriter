@@ -112,6 +112,8 @@ def genNavPages(postMetaData, blogFolder, config, rendered='rendered'):
     
     # We also want to make sure the template resources are available!
     copyanything("views/%s/resources" % config.get("Settings", "theme"), "%s/%s/resources" % (blogFolder, rendered))
+    if config.get("Settings", "favicon") != "None":
+        copyanything("%s/favicons/%s" % (blogFolder, config.get("Settings", "favicon")), "%s/%s/resources" % (blogFolder, rendered))
 
 """Pass a .txt file from the blog to this function and
 receive meta-data for the post.

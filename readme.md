@@ -26,8 +26,10 @@ You must also have a "settings.cfg" file in the same folder in the following for
 
     [Settings]
     title=<title of blog>
+    subtitle=<used for tagline and blog description>
     description=<Meta description for front page>
     theme=<theme name, default is default>
+    favicon=<name of favicon file> // create a "favicons" folder in the blog posts folder and place the icon there.
 
 Currently, there is only one template, but this will change in the future. This, among other things, will be included in the settings file.
 
@@ -60,3 +62,4 @@ Current To-Do List:
 - Ability to git push to a repo of .md files in order to publish a new post or update your blog
 - Grab hot-linked pictures and host locally automatically
 - Finer grained Disqus control, allowing for owners of a blog to be moderators.
+- ~~Favicon support~~
