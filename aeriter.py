@@ -141,13 +141,13 @@ def renderPost(postName, blogFolder, config, rendered='rendered'):
     date = datetime.strptime(linematch.match(post, datematch.search(post).end()).group(0), "%Y-%m-%d-%H:%M")
     tags = linematch.match(post, tagsmatch.search(post).end()).group(0).split(',')
     author = linematch.match(post, authormatch.search(post).end()).group(0)
-    post = cgi.escape(post[postmatch.search(post).end():])
+    post = markdown2.markdown(post[postmatch.search(post).end():])
     postGist = post[0:140] + '...'
     
-    renderedPost = template('template', postTitle=postTitle, post=markdown2.markdown(post), date=date, author=author, postGist=postGist.replace("\n", " "), config=config, tags=tags)
+    renderedPost = template('template', postTitle=postTitle, post=post, date=date, author=author, postGist=postGist.replace("\n", " "), config=config, tags=tags)
     make_sure_path_exists(blogFolder + '/' + rendered + '/' + relpath)
     f = open(blogFolder + '/' + rendered + '/' + relpath + '/index.html', 'w+')
-    renderedPost = renderedPost.encode('ascii', 'xmlcharrefreplace')
+    renderedPost = renderedPost.encode('ascii','xmlcharrefreplace')
     f.write(renderedPost)
     f.close()
     return (date, postTitle, relpath, tags, author, postGist)

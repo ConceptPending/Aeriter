@@ -16,4 +16,4 @@
     %end
     %end
 </div>
-%rebase base_template title=config.get("Settings", "title"), h1Title=config.get("Settings", "title"), description=config.get("Settings", "description")
+%rebase base_template title=config.get("Settings", "title"), h1Title=config.get("Settings", "title"), description=config.get("Settings", "description"), config=config

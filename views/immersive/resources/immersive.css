@@ -75,3 +75,13 @@ h4 { margin-top : 25px; }
 h1 {
     font-family: "Open Sans", sans-serif;
 }
+
+code, pre {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    background-color: #444;
+    color: #FFF;
+    border: none;
+    margin: 0 0 30px;
+}
