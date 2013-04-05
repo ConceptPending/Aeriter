@@ -142,7 +142,7 @@ def renderPost(postName, blogFolder, config, rendered='rendered'):
     tags = linematch.match(post, tagsmatch.search(post).end()).group(0).split(',')
     author = linematch.match(post, authormatch.search(post).end()).group(0)
     post = markdown2.markdown(post[postmatch.search(post).end():])
-    postGist = post[0:140] + '...'
+    postGist = re.sub('<[^<]+?>','',post)[0:140] + '...'
     
     renderedPost = template('template', postTitle=postTitle, post=post, date=date, author=author, postGist=postGist.replace("\n", " "), config=config, tags=tags)
     make_sure_path_exists(blogFolder + '/' + rendered + '/' + relpath)
