@@ -35,6 +35,10 @@ h2, h2 a {
     background: none;
 }
 
+h2 a:hover {
+    color: rgb(55,155,55);
+}
+
 h3 {
     font-size : 20px;
     font-family: "Rock Salt", cursive;
@@ -51,7 +55,9 @@ h4 {
     color: #95948F;
 }
 .post_date {
-    margin-left : 20px;
+    position: relative;
+    top: -5px;
+    margin-left : 25px;
     font-size : small;
 }
 .author {
