@@ -92,6 +92,11 @@ def genNavPages(postMetaData, blogFolder, config, rendered='rendered'):
     # We want to first sort the posts from newest to oldest.
     postMetaData.sort(key=lambda x: x[0], reverse=True)
     
+    # Then we want to make sure the links are all relative to root.
+    for x in postMetaData:
+        if x[2][1] != "/":
+            x[2] = "/" + x[2]
+    
     #Now we're rendering the front page.
     renderedPost = template('page', postMetaData=postMetaData, config=config)
     make_sure_path_exists(blogFolder + '/%s/' % rendered)
@@ -142,6 +147,7 @@ def renderPost(postName, blogFolder, config, rendered='rendered'):
     tags = linematch.match(post, tagsmatch.search(post).end()).group(0).split(',')
     author = linematch.match(post, authormatch.search(post).end()).group(0)
     post = markdown2.markdown(post[postmatch.search(post).end():])
+    # It's okay to use a Regex here for these purposes, especially as all the HTML is machine generated and predictable.
     postGist = re.sub('<[^<]+?>','',post)[0:140] + '...'
     
     renderedPost = template('template', postTitle=postTitle, post=post, date=date, author=author, postGist=postGist.replace("\n", " "), config=config, tags=tags)
@@ -150,7 +156,7 @@ def renderPost(postName, blogFolder, config, rendered='rendered'):
     renderedPost = renderedPost.encode('ascii','xmlcharrefreplace')
     f.write(renderedPost)
     f.close()
-    return (date, postTitle, relpath, tags, author, postGist)
+    return [date, postTitle, relpath, tags, author, postGist]
 
 if __name__ == '__main__':
     main()

@@ -1,0 +1,91 @@
+body {
+    color: #51504B;
+    background: url("/resources/lined_paper_@2X.png") repeat;
+}
+.container {
+}
+a {
+    text-decoration : none;
+    color : #62615C;
+    text-shadow : 1px 1px 1px rgba(150,150,200,0.35);
+}
+a:hover {
+    text-decoration : none;
+    color : #95948F;
+}
+.demo-headline { padding : 25px 0 25px; }
+p {
+    font-size : large !important;
+    margin-bottom : 25px !important;
+    font-family : "Walter Turncoat", cursive;
+}
+.listing {
+    margin-bottom : 10px;
+    margin-left: 11px;
+    padding : 0 5px 0 3px;
+    position : relative;
+}
+h2 {
+    margin-top : 10px;
+    font-family: "Rock Salt", cursive;
+}
+
+h3 {
+    font-size : 20px;
+    font-family: "Rock Salt", cursive;
+}
+
+h4 {
+    margin-top : 25px;
+    font-family: "Rock Salt", cursive;
+}
+
+.date {
+    font-size : small;
+    float: right;
+    color: #95948F;
+}
+.post_date {
+    margin-left : 20px;
+    font-size : small;
+}
+.author {
+    margin-left : 20px;
+    font-size : medium;
+}
+.undertitle {
+    margin-top : -10px;
+    font-family: "Rock Salt", cursive;
+}
+.span6 {
+    padding: 5px;
+}
+.post {
+    padding-left: 5px;
+    margin-left: 5px;
+}
+.row {
+    margin-bottom : 0;
+}
+.headline {
+    text-align: center;
+    margin: 55px 0 55px 0;
+}
+.logo {
+    font-size: 90px;
+    font-weight: 900;
+    line-height: 100px;
+}
+h1 {
+    font-family: "Rock Salt", cursive;
+}
+
+code, pre {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    background-color: #444;
+    color: #FFF;
+    border: none;
+    margin: 0 0 30px;
+}
